@@ -12,7 +12,7 @@ from aiocache import caches
 from aiogram import Bot, Dispatcher, types
 from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import BotCommand, Update
+from aiogram.types import BotCommand, Update, ErrorEvent
 from loguru import logger
 
 import config
@@ -37,19 +37,19 @@ COMMANDS = [
 # ================
 
 @dp.errors()
-async def on_error(update: Update, exception: Exception):
+async def on_error(exception: ErrorEvent):
     """Глобальный обарботчик ошибок.
 
     Как только что-то в боте пойдёт не так, этот обработчик тут же
     поймает это и обработает внутри себя.
     """
-    logger.error("Update {} caused {}", update, exception)
-    if isinstance(update, types.CallbackQuery):
-        await update.message.answer(
-            "Произошла ошибка. Пожалуйста, попробуйте позже."
-        )
-    elif isinstance(update, types.Message):
-        await update.answer("Произошла ошибка. Пожалуйста, попробуйте позже.")
+    logger.error("Update {} caused {}", exception.update, exception.exception)
+    error_message = "Произошла ошибка. Пожалуйста, попробуйте позже."
+
+    if exception.update.callback_query is not None:
+        await exception.update.callback_query.message.answer(error_message)
+    else:
+        await exception.update.message.answer(error_message)
     return True
 
 
@@ -88,7 +88,7 @@ async def main():
 
     # Настройки боат по умолчанию
     default = DefaultBotProperties()
-    default.parse_mode = "MarkdownV2"
+    default.parse_mode = "Html"
 
     # Инициализация бота
     bot = Bot(
