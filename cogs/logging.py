@@ -1,6 +1,7 @@
-from aiogram import types, Dispatcher
 import logging
-from aiogram.filters import CommandStart, Command
+
+from aiogram import Dispatcher, types
+from aiogram.filters import Command, CommandStart
 
 # Настройка логирования
 logger = logging.getLogger(__name__)

@@ -1,11 +1,21 @@
-import logging
 import asyncio
+import logging
+
+from aiocache import caches
 from aiogram import Bot, Dispatcher, types
-from aiogram.types import BotCommand
 from aiogram.fsm.storage.memory import MemoryStorage
+from aiogram.types import BotCommand
+
+from cogs import (
+    bot_info,
+    help,
+    homework_help,
+    homework_list,
+    main_menu,
+    navigation,
+    webinar_records,
+)
 from config import TOKEN
-from aiocache import caches, cached
-from cogs import main_menu, navigation, homework_list, webinar_records, bot_info, help, homework_help
 
 # Настройка логирования
 logging.basicConfig(

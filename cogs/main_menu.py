@@ -1,6 +1,7 @@
-from aiogram import types, Dispatcher
-from aiogram.filters import Command
 from aiocache import cached
+from aiogram import Dispatcher, types
+from aiogram.filters import Command
+
 
 @cached(ttl=60)
 async def get_welcome_text():

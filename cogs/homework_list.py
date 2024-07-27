@@ -1,5 +1,6 @@
-from aiogram import types, Dispatcher
 from aiocache import cached
+from aiogram import Dispatcher, types
+
 
 @cached(ttl=300)
 async def get_homework_list_text():

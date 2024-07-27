@@ -1,4 +1,5 @@
-from aiogram import types, Dispatcher
+from aiogram import Dispatcher, types
+
 
 async def handle_homework_help(call: types.CallbackQuery):
     text = """
