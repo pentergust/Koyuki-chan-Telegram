@@ -1,78 +1,120 @@
+"""Главный файл бота.
+
+настраивает все компоненты бота.
+подключает внешние обработчики.
+Запускает обработчик событий.
+"""
+
 import asyncio
 import logging
 
 from aiocache import caches
 from aiogram import Bot, Dispatcher, types
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import BotCommand
+from aiogram.types import BotCommand, Update
+
+from loguru import logger
 
 from cogs import (
     bot_info,
-    help,
+    bot_help,
     homework_help,
     homework_list,
     main_menu,
     navigation,
     webinar_records,
 )
-from config import TOKEN
+import config
 
-# Настройка логирования
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler("bot.log"),
-        logging.StreamHandler()
-    ]
-)
+# Глобальные переменные
+# =====================
 
-# Настройка кэширования
-caches.set_config({
-    'default': {
-        'cache': 'aiocache.SimpleMemoryCache',
-        'serializer': {
-            'class': 'aiocache.serializers.PickleSerializer'
-        }
-    }
-})
-
-# Инициализация бота
-bot = Bot(token=TOKEN)
 # Инициализация диспетчера с использованием памяти для хранения состояний
 storage = MemoryStorage()
 dp = Dispatcher(storage=storage)
 
-# Регистрация обработчиков
-main_menu.register_handlers(dp)
-navigation.register_handlers(dp)
-homework_list.register_handlers(dp)
-webinar_records.register_handlers(dp)
-bot_info.register_handlers(dp)
-help.register_handlers(dp)
-homework_help.register_handlers(dp)
+# Глобальный список всех комад бота
+# Используется чтобы автоматически настраивать список команд в Telegram
+COMMANDS = [
+    BotCommand(command="/start", description="Запустить бота"),
+    BotCommand(command="/menu", description="Показать меню")
+]
 
-async def set_commands(bot: Bot):
-    commands = [
-        BotCommand(command="/start", description="Запустить бота"),
-        BotCommand(command="/menu", description="Показать меню")
-    ]
-    await bot.set_my_commands(commands)
+# Список всех обработчиков бота.
+# После он будет перенесён в другое место.
+ROUTERS = [
+    bot_info,
+    bot_help,
+    homework_help,
+    homework_list,
+    main_menu,
+    navigation,
+    webinar_records
+]
 
-# Глобальный обработчик ошибок
-async def on_error(update: types.Update, exception: Exception):
-    logging.error(f"Update {update} caused error {exception}")
+
+# Обработчики бота
+# ================
+
+@dp.errors()
+async def on_error(update: Update, exception: Exception):
+    """Глобальный обарботчик ошибок.
+
+    Как только что-то в боте пойдёт не так, этот обработчик тут же
+    поймает это и обработает внутри себя.
+    """
+    loguru.error("Update {} caused {}", update, exception)
     if isinstance(update, types.CallbackQuery):
         await update.message.answer("Произошла ошибка. Пожалуйста, попробуйте позже.")
     elif isinstance(update, types.Message):
         await update.answer("Произошла ошибка. Пожалуйста, попробуйте позже.")
     return True
 
-dp.errors.register(on_error)
+
+# Функция запуска бота
+# ====================
 
 async def main():
-    await set_commands(bot)
+    """Производит настройку и запуск компонентов бота.
+
+    Настраивает обработчики, логгирование, кэширование.
+    """
+    # Настройка логирования
+    logging.basicConfig(
+        level=logging.INFO,
+        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        handlers=[
+            logging.FileHandler("bot.log"),
+            logging.StreamHandler()
+        ]
+    )
+
+    # Настройка кэширования
+    caches.set_config({
+        'default': {
+            'cache': 'aiocache.SimpleMemoryCache',
+            'serializer': {
+                'class': 'aiocache.serializers.PickleSerializer'
+            }
+        }
+    })
+
+    logger.info("Load routers")
+    for router in ROUTERS:
+        router.register_handlers(dp)
+    logger.success("Load routers complete")
+
+    # Инициализация бота
+    bot = Bot(token=config.TOKEN)
+
+    if config.SET_COMMANDS:
+        logger.info("Update bot commands")
+        await bot.set_my_commands(COMMANDS)
     await dp.start_polling(bot)
+
+
+# Запуск скрипта
+# ==============
 
 if __name__ == '__main__':
     asyncio.run(main())
