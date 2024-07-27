@@ -21,4 +21,4 @@ jobs:
         poetry install
     - name: Analysing the code with ruff
       run: |
-        ruff check
+        poetry run ruff check
