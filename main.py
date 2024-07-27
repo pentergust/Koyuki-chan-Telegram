@@ -29,7 +29,9 @@ dp = Dispatcher(storage=storage)
 # Используется чтобы автоматически настраивать список команд в Telegram
 COMMANDS = [
     BotCommand(command="/start", description="Запустить бота"),
-    BotCommand(command="/menu", description="Показать меню")
+    BotCommand(command="/menu", description="Показать меню"),
+    BotCommand(command="/help", description="Раздел получения помощи"),
+    BotCommand(command="/faq", description="Часто задаваемые вопросы")
 ]
 
 

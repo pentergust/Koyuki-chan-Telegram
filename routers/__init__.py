@@ -12,7 +12,7 @@ from routers import (
     logging,
     main_menu,
     navigation,
-    webinar_records
+    webinar_records,
 )
 
 # Список всех доступных обработчиков
