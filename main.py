@@ -12,11 +12,10 @@ from aiocache import caches
 from aiogram import Bot, Dispatcher, types
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import BotCommand, Update
-
 from loguru import logger
 
-from routers import ROUTERS
 import config
+from routers import ROUTERS
 
 # Глобальные переменные
 # =====================
@@ -43,9 +42,11 @@ async def on_error(update: Update, exception: Exception):
     Как только что-то в боте пойдёт не так, этот обработчик тут же
     поймает это и обработает внутри себя.
     """
-    loguru.error("Update {} caused {}", update, exception)
+    logger.error("Update {} caused {}", update, exception)
     if isinstance(update, types.CallbackQuery):
-        await update.message.answer("Произошла ошибка. Пожалуйста, попробуйте позже.")
+        await update.message.answer(
+            "Произошла ошибка. Пожалуйста, попробуйте позже."
+        )
     elif isinstance(update, types.Message):
         await update.answer("Произошла ошибка. Пожалуйста, попробуйте позже.")
     return True
