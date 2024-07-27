@@ -1,6 +1,6 @@
 from aiogram import Dispatcher, types
 
-from cogs.main_menu import get_welcome_text  # Импортируем функцию кэширования
+from routers.main_menu import get_welcome_text  # Импортируем функцию кэширования
 
 
 async def handle_back_to_menu(call: types.CallbackQuery):

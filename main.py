@@ -15,15 +15,7 @@ from aiogram.types import BotCommand, Update
 
 from loguru import logger
 
-from cogs import (
-    bot_info,
-    bot_help,
-    homework_help,
-    homework_list,
-    main_menu,
-    navigation,
-    webinar_records,
-)
+from routers import ROUTERS
 import config
 
 # Глобальные переменные
@@ -38,18 +30,6 @@ dp = Dispatcher(storage=storage)
 COMMANDS = [
     BotCommand(command="/start", description="Запустить бота"),
     BotCommand(command="/menu", description="Показать меню")
-]
-
-# Список всех обработчиков бота.
-# После он будет перенесён в другое место.
-ROUTERS = [
-    bot_info,
-    bot_help,
-    homework_help,
-    homework_list,
-    main_menu,
-    navigation,
-    webinar_records
 ]
 
 
