@@ -10,6 +10,7 @@ import logging
 
 from aiocache import caches
 from aiogram import Bot, Dispatcher, types
+from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.storage.memory import MemoryStorage
 from aiogram.types import BotCommand, Update
 from loguru import logger
@@ -85,8 +86,15 @@ async def main():
         router.register_handlers(dp)
     logger.success("Load routers complete")
 
+    # Настройки боат по умолчанию
+    default = DefaultBotProperties()
+    default.parse_mode = "MarkdownV2"
+
     # Инициализация бота
-    bot = Bot(token=config.TOKEN)
+    bot = Bot(
+        token=config.TOKEN,
+        default=default
+    )
 
     if config.SET_COMMANDS:
         logger.info("Update bot commands")
