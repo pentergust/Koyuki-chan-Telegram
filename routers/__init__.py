@@ -21,7 +21,7 @@ ROUTERS = (
     bot_info,
     homework_help,
     homework_list,
-    logging,
+    # logging,
     main_menu,
     navigation,
     webinar_records

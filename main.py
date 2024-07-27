@@ -90,7 +90,7 @@ async def main():
 
     # Настройки боат по умолчанию
     default = DefaultBotProperties()
-    default.parse_mode = "Html"
+    default.parse_mode = "Markdown"
 
     # Инициализация бота
     bot = Bot(
