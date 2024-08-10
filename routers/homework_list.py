@@ -36,12 +36,27 @@ async def get_homework_list_text():
     **Важно**: для перевода на следующий модуль обязательное количество домашних заданий - 3 штуки, сданный тест и одно посещение вебинара.
     """
 
+
 async def handle_homework_list(call: types.CallbackQuery):
     text = await get_homework_list_text()
-    markup = types.InlineKeyboardMarkup(inline_keyboard=[
-        [types.InlineKeyboardButton(text="Назад в меню", callback_data="back_to_menu")]
-    ])
-    await call.message.edit_text(text, reply_markup=markup, parse_mode='Markdown', disable_web_page_preview=True)
+    markup = types.InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                types.InlineKeyboardButton(
+                    text="Назад в меню", callback_data="back_to_menu"
+                )
+            ]
+        ]
+    )
+    await call.message.edit_text(
+        text,
+        reply_markup=markup,
+        parse_mode="Markdown",
+        disable_web_page_preview=True,
+    )
+
 
 def register_handlers(dp: Dispatcher):
-    dp.callback_query.register(handle_homework_list, lambda call: call.data == "homework_list")
+    dp.callback_query.register(
+        handle_homework_list, lambda call: call.data == "homework_list"
+    )

@@ -9,10 +9,10 @@ import asyncio
 import logging
 
 from aiocache import caches
-from aiogram import Bot, Dispatcher, types
+from aiogram import Bot, Dispatcher
 from aiogram.client.default import DefaultBotProperties
 from aiogram.fsm.storage.memory import MemoryStorage
-from aiogram.types import BotCommand, Update, ErrorEvent
+from aiogram.types import BotCommand, ErrorEvent
 from loguru import logger
 
 import config
@@ -31,12 +31,13 @@ COMMANDS = [
     BotCommand(command="/start", description="Запустить бота"),
     BotCommand(command="/menu", description="Показать меню"),
     BotCommand(command="/help", description="Раздел получения помощи"),
-    BotCommand(command="/faq", description="Часто задаваемые вопросы")
+    BotCommand(command="/faq", description="Часто задаваемые вопросы"),
 ]
 
 
 # Обработчики бота
 # ================
+
 
 @dp.errors()
 async def on_error(exception: ErrorEvent):
@@ -58,6 +59,7 @@ async def on_error(exception: ErrorEvent):
 # Функция запуска бота
 # ====================
 
+
 async def main():
     """Производит настройку и запуск компонентов бота.
 
@@ -66,22 +68,21 @@ async def main():
     # Настройка логирования
     logging.basicConfig(
         level=logging.INFO,
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-        handlers=[
-            logging.FileHandler("bot.log"),
-            logging.StreamHandler()
-        ]
+        format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+        handlers=[logging.FileHandler("bot.log"), logging.StreamHandler()],
     )
 
     # Настройка кэширования
-    caches.set_config({
-        'default': {
-            'cache': 'aiocache.SimpleMemoryCache',
-            'serializer': {
-                'class': 'aiocache.serializers.PickleSerializer'
+    caches.set_config(
+        {
+            "default": {
+                "cache": "aiocache.SimpleMemoryCache",
+                "serializer": {
+                    "class": "aiocache.serializers.PickleSerializer"
+                },
             }
         }
-    })
+    )
 
     logger.info("Load routers")
     for router in ROUTERS:
@@ -93,10 +94,7 @@ async def main():
     default.parse_mode = "Markdown"
 
     # Инициализация бота
-    bot = Bot(
-        token=config.TOKEN,
-        default=default
-    )
+    bot = Bot(token=config.TOKEN, default=default)
 
     if config.SET_COMMANDS:
         logger.info("Update bot commands")
@@ -107,5 +105,5 @@ async def main():
 # Запуск скрипта
 # ==============
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     asyncio.run(main())

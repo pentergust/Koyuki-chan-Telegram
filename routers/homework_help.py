@@ -41,10 +41,24 @@ async def handle_homework_help(call: types.CallbackQuery):
     🛟 **Кураторы:** Анастасия [@plastasya](https://t.me/plastasya) и Яна [@qtwec](https://t.me/qtwec)
 
     """
-    markup = types.InlineKeyboardMarkup(inline_keyboard=[
-        [types.InlineKeyboardButton(text="⬅️ Назад в помощь", callback_data="help")]
-    ])
-    await call.message.edit_text(text, reply_markup=markup, parse_mode='Markdown', disable_web_page_preview=True)
+    markup = types.InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                types.InlineKeyboardButton(
+                    text="⬅️ Назад в помощь", callback_data="help"
+                )
+            ]
+        ]
+    )
+    await call.message.edit_text(
+        text,
+        reply_markup=markup,
+        parse_mode="Markdown",
+        disable_web_page_preview=True,
+    )
+
 
 def register_handlers(dp: Dispatcher):
-    dp.callback_query.register(handle_homework_help, lambda call: call.data == "homework_help")
+    dp.callback_query.register(
+        handle_homework_help, lambda call: call.data == "homework_help"
+    )

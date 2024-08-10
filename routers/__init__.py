@@ -24,7 +24,7 @@ ROUTERS = (
     # logging,
     main_menu,
     navigation,
-    webinar_records
+    webinar_records,
 )
 
 # Из этого файла нам нужен лишь список обарботчиков

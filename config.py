@@ -12,7 +12,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Токен Telegram API для рабоыт бота
-TOKEN = os.getenv('TELEGRAM_BOT_API_TOKEN')
+TOKEN = os.getenv("TELEGRAM_BOT_API_TOKEN")
 
 # Если пользователь не указал токен, то дальше нам делать нечего
 # так что любзено попросим его укзаать токен в переменные окружения

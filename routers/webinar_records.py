@@ -33,12 +33,27 @@ async def get_webinar_records_text():
     по ссылке: [ссылка](https://my.mts-link.ru/j/3080305/413797792)
     """
 
+
 async def handle_webinar_records(call: types.CallbackQuery):
     text = await get_webinar_records_text()
-    markup = types.InlineKeyboardMarkup(inline_keyboard=[
-        [types.InlineKeyboardButton(text="⬅️ Назад в меню", callback_data="back_to_menu")]
-    ])
-    await call.message.edit_text(text, reply_markup=markup, parse_mode='Markdown', disable_web_page_preview=True)
+    markup = types.InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                types.InlineKeyboardButton(
+                    text="⬅️ Назад в меню", callback_data="back_to_menu"
+                )
+            ]
+        ]
+    )
+    await call.message.edit_text(
+        text,
+        reply_markup=markup,
+        parse_mode="Markdown",
+        disable_web_page_preview=True,
+    )
+
 
 def register_handlers(dp: Dispatcher):
-    dp.callback_query.register(handle_webinar_records, lambda call: call.data == "webinar_records")
+    dp.callback_query.register(
+        handle_webinar_records, lambda call: call.data == "webinar_records"
+    )

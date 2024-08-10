@@ -27,12 +27,24 @@ async def get_bot_info_text():
     Спасибо, что используете Koyuki-chan! Желаю вам успехов в изучении Python!
     """
 
+
 async def handle_bot_info(call: types.CallbackQuery):
     text = await get_bot_info_text()
-    markup = types.InlineKeyboardMarkup(inline_keyboard=[
-        [types.InlineKeyboardButton(text="Назад в меню", callback_data="back_to_menu")]
-    ])
-    await call.message.edit_text(text, reply_markup=markup, parse_mode='Markdown')
+    markup = types.InlineKeyboardMarkup(
+        inline_keyboard=[
+            [
+                types.InlineKeyboardButton(
+                    text="Назад в меню", callback_data="back_to_menu"
+                )
+            ]
+        ]
+    )
+    await call.message.edit_text(
+        text, reply_markup=markup, parse_mode="Markdown"
+    )
+
 
 def register_handlers(dp: Dispatcher):
-    dp.callback_query.register(handle_bot_info, lambda call: call.data == "bot_info")
+    dp.callback_query.register(
+        handle_bot_info, lambda call: call.data == "bot_info"
+    )
