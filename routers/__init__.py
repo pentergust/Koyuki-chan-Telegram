@@ -10,7 +10,6 @@ from routers import (  # noqa: F401
     homework_help,
     homework_list,
     main_menu,
-    navigation,
     webinar_records,
 )
 
@@ -21,7 +20,6 @@ ROUTERS = (
     homework_help,
     homework_list,
     main_menu,
-    navigation,
     webinar_records,
 )
 

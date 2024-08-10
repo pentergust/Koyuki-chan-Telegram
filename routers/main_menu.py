@@ -5,57 +5,46 @@
 Предоставляет
 -------------
 
-- /start /menu: Главнао меню.
+- /start /menu (back_to_menu): Главнао меню.
 """
 
 from aiocache import cached
-from aiogram import Dispatcher, types
+from aiogram import Dispatcher, types, Router, F
+from aiogram.types import InlineKeyboardButton, InlineKeyboardMarkup, CallbackQuery, Message
 from aiogram.filters import Command
+
+router = Router(name=__name__)
 
 # Компоненты сообщений
 # ====================
 
-@cached(ttl=60)
-async def get_welcome_text():
-    return """
-    **Добро пожаловать в Koyuki-chan!**
+WELCOME_TEXT = (
+    "*Добро пожаловать главное меню Koyuki-chan!*"
+    "Я ваша виртуальная помощница, созданная для упрощения навигации по курсу"
+    " \"Код будущего\"."
+)
 
-    Я Koyuki-chan, ваша виртуальная помощница, созданная для упрощения навигации по курсу "Код будущего".
-    """
+MAIN_MENU_MARKUP = InlineKeyboardMarkup(inline_keyboard=[[
+    InlineKeyboardButton(text="📚 Список дз", callback_data="homework_list"),
+    InlineKeyboardButton
+        (text="🎥 Записи вебинара", callback_data="webinar_records"
+    ),
+    InlineKeyboardButton(text="❓ Помощь", callback_data="help"),
+    InlineKeyboardButton(text="ℹ️ Информация о боте", callback_data="bot_info")
+]])
 
 
 # Обработчики
 # ===========
 
-async def send_welcome(message: types.Message):
-    text = await get_welcome_text()
+@router.message(Command("start"))
+@router.message(Command("menu"))
+async def main_menu_command(message: Message):
+    await message.answer(WELCOME_TEXT, reply_markup=MAIN_MENU_MARKUP)
 
-    markup = types.InlineKeyboardMarkup(
-        inline_keyboard=[
-            [
-                types.InlineKeyboardButton(
-                    text="📚 Список дз", callback_data="homework_list"
-                )
-            ],
-            [
-                types.InlineKeyboardButton(
-                    text="🎥 Записи вебинара", callback_data="webinar_records"
-                )
-            ],
-            [
-                types.InlineKeyboardButton(
-                    text="❓ Помощь", callback_data="help"
-                )
-            ],
-            [
-                types.InlineKeyboardButton(
-                    text="ℹ️ Информация о боте", callback_data="bot_info"
-                )
-            ],
-        ]
-    )
-
-    await message.answer(text, reply_markup=markup, parse_mode="Markdown")
+@router.callback_query(F.data == "back_to_menu")
+async def main_menu_callback(query: CallbackQuery):
+    await query.message.answer(WELCOME_TEXT, reply_markup=MAIN_MENU_MARKUP)
 
 
 # Загрузки роутера
@@ -69,5 +58,4 @@ def register_handlers(dp: Dispatcher):
     Это позволяет использовать определённые в роутере обработчики
     диспетчером.
     """
-    dp.message.register(send_welcome, Command("start"))
-    dp.message.register(send_welcome, Command("menu"))
+    dp.include_router(router)

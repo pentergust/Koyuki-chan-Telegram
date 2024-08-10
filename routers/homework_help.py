@@ -20,7 +20,6 @@ async def handle_homework_help(call: types.CallbackQuery):
     Также дополнительные материалы: гихтаб, решение проблем, связь с
     кураторами.
     """
-
     text = """
     **ПОМОЩЬ С ДЗ**
 
