@@ -23,11 +23,10 @@ async def get_webinar_records_text():
     по ссылке: [ссылка](https://v.lscdn.ru/cdn7/synergy_academy/kb/wr_20240721_bot_otpravl_prognoz_pog_16_00_mish.mp4)
 
     *6 вебинар*. Тема: Кнопки в боте 
-    по ссылке: *На данный момент не доступна запись вебинара.*
+    по ссылке: [ссылка](https://v.lscdn.ru/cdn7/synergy_academy/kb/wr_20240726_knopki_v_bote_16_00_mish.mp4)
 
     *7 вебинар*. Тема:  Игра в чат-боте 
-    (Время проведения : 27.07 16:00-17:40)
-    по ссылке: [ссылка](https://my.mts-link.ru/j/3080305/1544540662)
+    по ссылке: [ссылка](https://v.lscdn.ru/cdn7/synergy_academy/kb/wr_20240727_igra_v_chat_bot_mishin_16_00.mp4)
 
     *8 вебинар*. Тема:  Игра в чат-боте часть 2 
     (Время проведения : 29.07 16:00-17:40)

@@ -22,6 +22,9 @@ async def handle_homework_help(call: types.CallbackQuery):
     Разбор домашнего задания для *6-го вебинара*. Тема: Кнопки в боте 
     ➡️ Разбор:[ссылка](https://telegra.ph/Domashnee-zadanie-6---Knopki-v-bote-07-26)
 
+    Разбор домашнего задания для *9-го вебинара*. Тема: Итоговый проект
+    ➡️ Разбор:[ссылка](https://telegra.ph/Domashnee-zadanie-9-Itogovyj-proekt-07-29)
+
     Остальные материалы будут доступны по мере их разработки.
 
     Так же доступен [GitHub](https://github.com/MishinIgor/3modPython/tree/master) с которым мы работаем на вебинарах
