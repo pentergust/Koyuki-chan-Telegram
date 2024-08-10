@@ -135,12 +135,24 @@ CONTACT_CURATOR_MESSAGE = (
 
 @router.message(Command("help"))
 async def help_cmd(message: Message):
+    """Отправялет нас в раздел получения поиощи.
+
+    Тут пользователь сможет получить ответы на частые вопросы.
+    Узнать к кому он может обратиться за помощью при решении проблем.
+    А также получить решения для домашних заданий и теста.
+    """
     await message.answer(
         text=HELP_MESSAGE, reply_markup=HELP_MARKUP
     )
 
 @router.callback_query(F.data=="help")
 async def help_call(query: CallbackQuery):
+    """Отправялет нас в раздел получения поиощи.
+
+    Тут пользователь сможет получить ответы на частые вопросы.
+    Узнать к кому он может обратиться за помощью при решении проблем.
+    А также получить решения для домашних заданий и теста.
+    """
     await query.message.edit_text(
         text=HELP_MESSAGE, reply_markup=HELP_MARKUP
     )
@@ -148,12 +160,22 @@ async def help_call(query: CallbackQuery):
 
 @router.message(Command("faq"))
 async def faq_cmd(message: Message):
+    """Раздел часто задаваемых вопросов.
+
+    Тут пользователь может получить заготовленный ответ, на самые часто
+    задаемые вопросы во время обучения.
+    """
     await message.answer(
         text=FAQ_MESSAGE, reply_markup=FAQ_MARKUP
     )
 
 @router.callback_query(F.data=="faq")
 async def faq_call(query: CallbackQuery):
+    """Раздел часто задаваемых вопросов.
+
+    Тут пользователь может получить заготовленный ответ, на самые часто
+    задаемые вопросы во время обучения.
+    """
     await query.message.edit_text(
         text=FAQ_MESSAGE, reply_markup=FAQ_MARKUP
     )
@@ -161,18 +183,33 @@ async def faq_call(query: CallbackQuery):
 
 @router.callback_query(F.data=="basics")
 async def basics_call(query: CallbackQuery):
+    """Базовая информация.
+
+    Тут пользователь сразу получает всю самую необходимую информацию.
+    Кто такие кураторы, тьюторы, преподаватели, лмс и так далее.
+    """
     await query.message.edit_text(
         text=BASICS_MESSAGE, reply_markup=TO_FAQ_MARKUP
     )
 
 @router.callback_query(F.data=="lms_guide")
 async def lms_call(query: CallbackQuery):
+    """Как работать с ЛМС.
+
+    В этом разделе находится материалы о том, как пользоватею начать
+    пользовать ЛМС и что это вообще такое.
+    """
     await query.message.edit_text(
         text=LMS_GUIDE_MESSAGE, reply_markup=TO_FAQ_MARKUP
     )
 
 @router.callback_query(F.data=="contact_curator")
 async def curator_call(query: CallbackQuery):
+    """Связь с куратором.
+
+    В этом разделе можно узнать, как пользователь может связаться
+    с кураторами/тьюторами/преподавателями для получения помощи.
+    """
     await query.message.edit_text(
         text=CONTACT_CURATOR_MESSAGE, reply_markup=TO_FAQ_MARKUP
     )
@@ -181,5 +218,12 @@ async def curator_call(query: CallbackQuery):
 # Загрузчик роутера
 # =================
 
-def register_handlers(dp: Dispatcher):
+def register_handlers(dp: Dispatcher) -> None:
+    """Загрузчик обработчика.
+
+    Данная функция вызывается при запуске бота.
+    Она добавляет роутер к диспетчеру.
+    Это позволяет использовать определённые в роутере обработчики
+    диспетчером.
+    """
     dp.include_router(router)

@@ -4,7 +4,7 @@
 обработчиков бота.
 """
 
-from routers import (
+from routers import (  # noqa: F401
     bot_help,
     bot_info,
     homework_help,
