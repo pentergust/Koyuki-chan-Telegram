@@ -1,9 +1,22 @@
+"""Возврат в главное меню.
+
+Проедоставляет вохможность вернуться в главное меню, по нажатию на
+кнопку.
+
+Предоставляет
+-------------
+
+- back_to_menu: Вернуться в главное меню.
+"""
+
 from aiogram import Dispatcher, types
 
 from routers.main_menu import (
     get_welcome_text,  # Импортируем функцию кэширования
 )
 
+# Обработчики
+# ===========
 
 async def handle_back_to_menu(call: types.CallbackQuery):
     text = await get_welcome_text()  # Используем кэшированную функцию
@@ -38,7 +51,17 @@ async def handle_back_to_menu(call: types.CallbackQuery):
     )
 
 
+# загрузка роутера
+# ================
+
 def register_handlers(dp: Dispatcher):
+    """Загрузчик обработчика.
+
+    Данная функция вызывается при запуске бота.
+    Она добавляет роутер к диспетчеру.
+    Это позволяет использовать определённые в роутере обработчики
+    диспетчером.
+    """
     dp.callback_query.register(
         handle_back_to_menu, lambda call: call.data == "back_to_menu"
     )
